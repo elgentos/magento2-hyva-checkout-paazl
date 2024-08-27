@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="head.additional">
+            <block name="paazl-js"
+                   template="Elgentos_HyvaCheckoutPaazl::paazl-scripts.phtml" after="-"/>
+        </referenceBlock>
+
+        <referenceBlock name="checkout.shipping.methods">
+            <arguments>
+                <argument name="magewire" xsi:type="object">
+                    Elgentos\HyvaCheckoutPaazl\Magewire\Shipping\MethodList\MethodListExtend
+                </argument>
+            </arguments>
+            <block name="checkout.shipping.method.paazl" template="Elgentos_HyvaCheckoutPaazl::paazl.phtml"
+                   as="paazlshipping_paazlshipping">
+                <arguments>
+                    <argument name="magewire" xsi:type="object">
+                        Elgentos\HyvaCheckoutPaazl\Magewire\Shipping\Method\Paazl
+                    </argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+
+    </body>
+</page>

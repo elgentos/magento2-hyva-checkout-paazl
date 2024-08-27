@@ -1,0 +1,74 @@
+<?php
+/*
+ * Copyright © elgentos. All rights reserved.
+ * https://elgentos.nl
+ */
+
+use Elgentos\HyvaCheckoutPaazl\ViewModel\Shipping\Method\Paazl as PaazlViewModel;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+/** @var Template $block */
+
+$paazlViewModel = $viewModels->require(PaazlViewModel::class);
+$paazlConfig = $paazlViewModel->getPaazlConfig();
+
+?>
+
+
+<?php if ($paazlViewModel->getPaazlMode() === 'live') : ?>
+    <script preload src="<?= $escaper->escapeUrl($block->getViewFileUrl('Paazl_CheckoutWidget::js/checkout/lib/checkout_local_live.js')); ?>"></script>
+<?php else : ?>
+    <script preload src="<?= $escaper->escapeUrl($block->getViewFileUrl('Paazl_CheckoutWidget::js/checkout/lib/checkout_local_test.js')); ?>"></script>
+<?php endif; ?>
+
+
+<script>
+    window.addEventListener('postcode:updated', (event) => {
+        if (event.detail.postcode === '') {
+            return;
+        }
+
+        PaazlCheckout.setConsigneeCountryCode(event.detail.country);
+        PaazlCheckout.setConsigneePostalCode(event.detail.postcode);
+    });
+
+    function isCheckoutUrl(url) {
+        const checkoutApiUrl = '<?= $escaper->escapeUrl($paazlConfig['paazlshipping']['checkoutApiUrl']) ?>';
+        return checkoutApiUrl && (checkoutApiUrl.indexOf(
+            url) === 0);
+    }
+
+    function isLocationUrl(url) {
+        let locationsUrl = '<?= $escaper->escapeUrl($paazlConfig['paazlshipping']['baseApiUrl']) ?>';
+        locationsUrl += 'pickuplocations';
+        return (locationsUrl.indexOf(url) === 0);
+    }
+
+    let openOrig = window.XMLHttpRequest.prototype.open;
+    let sendOrig = window.XMLHttpRequest.prototype.send;
+
+    window.XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
+        return openOrig.apply(this, arguments);
+    };
+
+    window.XMLHttpRequest.prototype.send = function (body) {
+        this.removeEventListener('load', onLocationSelect);
+        this.addEventListener('load', onLocationSelect.bind(this, body));
+        return sendOrig.apply(this, arguments);
+    };
+
+    function onLocationSelect(body, event) {
+        var ready =
+            (this.readyState === 4)
+            && event.target
+            && this.responseURL
+            && (event.target.status === 200);
+        if (ready && isCheckoutUrl(this.responseURL)) {
+            Magewire.emit('paazle_updated', body?.shippingOption?.identifier);
+        }
+    }
+</script>

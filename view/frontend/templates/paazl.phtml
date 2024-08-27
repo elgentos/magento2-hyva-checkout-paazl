@@ -1,0 +1,29 @@
+<?php
+/*
+ * Copyright © elgentos. All rights reserved.
+ * https://elgentos.nl
+ */
+
+use Elgentos\HyvaCheckoutPaazl\ViewModel\Shipping\Method\Paazl as PaazlViewModel;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+/** @var Template $block */
+
+$paazlViewModel = $viewModels->require(PaazlViewModel::class);
+
+$widgetConfig = $paazlViewModel->getWidgetConfig();
+$paazlConfig = $paazlViewModel->getPaazlConfig();
+
+?>
+
+<div>
+    <script>
+            PaazlCheckout.init(<?= /** @noEscape */ json_encode($widgetConfig); ?>);
+    </script>
+
+    <div id="widget_paazlshipping_paazlshipping"></div>
+</div>
