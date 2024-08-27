@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Elgentos\HyvaCheckoutPaazl\Magewire\Shipping\MethodList\MethodListExtend">
+        <arguments>
+            <argument name="sessionCheckout" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Elgentos\HyvaCheckoutPaazl\Magewire\Shipping\Method\Paazl">
+        <arguments>
+            <argument name="sessionCheckout" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+</config>
