@@ -3,7 +3,8 @@
   "description": "N/A",
   "type": "magento2-module",
   "require": {
-    "magento/framework": "*"
+    "magento/framework": "*",
+    "hyva-themes/magento2-hyva-checkout": "*"
   },
   "license": [
     "MIT"
