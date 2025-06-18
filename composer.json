@@ -4,7 +4,7 @@
   "type": "magento2-module",
   "require": {
     "magento/framework": "*",
-    "hyva-themes/magento2-hyva-checkout": "*"
+    "paazl/magento2-checkout-widget": "^1.19"
   },
   "license": [
     "MIT"
