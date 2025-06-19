@@ -7,6 +7,12 @@
                    template="Elgentos_HyvaCheckoutPaazl::paazl-scripts.phtml" after="-"/>
         </referenceBlock>
 
+        <referenceContainer name="magewire.plugin.scripts">
+            <block name="paazl"
+                   template="Elgentos_HyvaCheckoutPaazl::paazl-csp-js.phtml"
+            />
+        </referenceContainer>
+
         <referenceBlock name="checkout.shipping.methods">
             <arguments>
                 <argument name="magewire" xsi:type="object">

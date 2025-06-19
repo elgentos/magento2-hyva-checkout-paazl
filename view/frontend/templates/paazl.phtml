@@ -16,14 +16,12 @@ use Magento\Framework\View\Element\Template;
 $paazlViewModel = $viewModels->require(PaazlViewModel::class);
 
 $widgetConfig = $paazlViewModel->getWidgetConfig();
-$paazlConfig = $paazlViewModel->getPaazlConfig();
 
 ?>
 
 <div>
-    <script>
-            PaazlCheckout.init(<?= /** @noEscape */ json_encode($widgetConfig); ?>);
-    </script>
-
+    <div x-data="hyvaCheckoutPaazlWidget"
+         data-config="<?= $escaper->escapeHtmlAttr(json_encode($widgetConfig)); ?>">
+    </div>
     <div id="widget_paazlshipping_paazlshipping"></div>
 </div>

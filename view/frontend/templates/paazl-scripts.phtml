@@ -16,6 +16,9 @@ use Magento\Framework\View\Element\Template;
 $paazlViewModel = $viewModels->require(PaazlViewModel::class);
 $paazlConfig = $paazlViewModel->getPaazlConfig();
 
+if (empty($paazlConfig)) {
+    return '';
+}
 ?>
 
 
@@ -72,3 +75,4 @@ $paazlConfig = $paazlViewModel->getPaazlConfig();
         }
     }
 </script>
+<?php $hyvaCsp->registerInlineScript() ?>
